@@ -3,10 +3,9 @@
 //  Cork
 //
 //  Created by David Bureš on 07.07.2022.
-//
+//  import DavidFoundation
 
 import AppKit
-#import DavidFoundation
 import Foundation
 import SwiftUI
 import CorkShared
