@@ -22,7 +22,7 @@ jobs:
         run: tuist install
 
       - name: Generate project
-        run: tuist generate --no-binary-cache
+        run: tuist generate --no-binary-cache --verbose
 
       - name: Clean Xcode Build
         run: xcodebuild -project Cork.xcodeproj -scheme "Self-Compiled" -configuration Release -derivedDataPath build clean
