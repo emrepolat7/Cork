@@ -4,13 +4,13 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
 
       - name: Select Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_15.3.app
+        run: sudo xcode-select -switch /Applications/Xcode_16.1.app
 
       - name: Fix plugins
         run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
