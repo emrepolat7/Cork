@@ -24,8 +24,8 @@ jobs:
       - name: Generate project
         run: tuist generate --no-binary-cache --verbose
 
-#      - name: Clean Xcode Build
-#        run: xcodebuild -project Cork.xcodeproj -scheme "Self-Compiled" -configuration Release -derivedDataPath build clean
+      - name: Clean Xcode Build
+        run: xcodebuild -project Cork.xcodeproj -scheme "Self-Compiled" -configuration Release -derivedDataPath build clean
 
       - name: Build the app using xcodebuild
         run: |
