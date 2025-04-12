@@ -7,12 +7,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      
-      - uses: jdx/mise-action@v2
-        with:
-          mise_version: v1.x
-          tuist: "4.25.0"
-    
+      - uses: jdx/mise-action@v2    
+
       - name: Select Xcode
         run: sudo xcode-select -switch /Applications/Xcode_16.1.app
 
@@ -40,6 +36,10 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO | tee xcodebuild.log | xcpretty
+
+      - name: Debug Compilation Errors
+        run: cat xcodebuild.log
+        if: failure()
 
       - name: Package .app into zip
         run: |
