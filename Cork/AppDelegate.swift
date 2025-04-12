@@ -6,7 +6,7 @@
 //
 
 import AppKit
-import DavidFoundation
+#import DavidFoundation
 import Foundation
 import SwiftUI
 import CorkShared
