@@ -1,0 +1,50 @@
+name: Build Cork App
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jdx/mise-action@v2
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_16.1.app
+
+      - name: Fix plugins
+        run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+
+      - name: Clean Tuist Cache
+        run: tuist clean
+
+      - name: Install Tuist dependencies
+        run: tuist install
+
+      - name: Generate project
+        run: tuist generate --no-binary-cache
+
+      - name: Clean Xcode Build
+        run: xcodebuild -project Cork.xcodeproj -scheme "Self-Compiled" -configuration Release -derivedDataPath build clean
+
+      - name: Build the app using xcodebuild
+        run: |
+          set -o pipefail && xcodebuild -project Cork.xcodeproj \
+            -scheme "Self-Compiled" \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO | tee xcodebuild.log | xcpretty
+
+      - name: Package .app into zip
+        run: |
+          mkdir -p output
+          cp -R build/Build/Products/Release/Cork.app output/
+          cd output && zip -r Cork.zip Cork.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cork-app
+          path: output/Cork.zip
