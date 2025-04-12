@@ -7,8 +7,12 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      
       - uses: jdx/mise-action@v2
-
+        with:
+          mise_version: v1.x
+          tuist: "4.25.0"
+    
       - name: Select Xcode
         run: sudo xcode-select -switch /Applications/Xcode_16.1.app
 
